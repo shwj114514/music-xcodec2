@@ -1,0 +1,37 @@
+.idea/
+
+
+#### complie result
+**.pyc
+**.pyx
+
+**/build/
+
+##### infer output
+eval/**/*.wav
+
+**.zip
+
+**/bazel-5.3.2-installer-linux-x86_64.sh
+
+tmp.py
+
+**__pycache__**
+
+test_module/**/*.wav
+
+**.ckpt
+**.pth
+backup
+*tmp*
+
+exp*/
+
+
+pretrained/
+
+wandb/
+exp_infer/
+.vscode/
+
+test_audio/宝宝巴士 - 我会自己上厕所.mp3

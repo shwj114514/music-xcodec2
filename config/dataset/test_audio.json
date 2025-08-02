@@ -1,0 +1,11 @@
+
+{
+    "dataset_type": "audio_dir",
+    "datasets": [
+        {
+            "id": "test",
+            "path": "config/data/test_audio.jsonl"
+        }
+    ],
+    "random_crop": true
+}

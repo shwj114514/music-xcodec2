@@ -1,0 +1,107 @@
+{
+    "sample_rate": 24000,
+    "sample_size": 120000,
+    "audio_channels": 1,
+    "model": {
+        "codec": {
+            "encoder": {
+                "ngf": 48,
+                "hidden_dim": 1024,
+                "depth": 1,
+                "heads": 16,
+                "pos_meb_dim": 64,
+                "up_ratios": [2, 4, 4, 5, 6],
+                "dilations": [1, 3, 9]
+            },
+            "decoder": {
+                "ngf": 48,
+                "up_ratios": [6, 5, 4, 4, 2],
+                "dilations": [1, 3, 9],
+                "hidden_dim": 1024,
+                "depth": 12,
+                "heads": 16,
+                "pos_meb_dim": 64,
+                "hop_length":960,
+                "vq_num_quantizers": 1,
+                "vq_dim": 2048,
+                "vq_commit_weight": 0.25,
+                "vq_weight_init": false,
+                "vq_full_commit_loss": false,
+                "codebook_size": 16384,
+                "codebook_dim": 16
+            },
+            "ssl":{
+                "type":"MuQ",
+                "model_name_or_path":"OpenMuQ/MuQ-large-msd-iter",
+                "enable_grad":false
+            }
+        },
+        
+        "mpd": {
+            "periods": [2, 3, 5, 7, 11],
+            "max_downsample_channels": 512,
+            "channels": 16,
+            "channel_increasing_factor": 4
+        },
+        "mstft": {
+            "stft_params": {
+                "fft_sizes": [78, 126, 206, 334, 542, 876, 1418, 2296],
+                "hop_sizes": [39, 63, 103, 167, 271, 438, 709, 1148],
+                "win_lengths": [78, 126, 206, 334, 542, 876, 1418, 2296],
+                "window": "hann_window"
+            },
+            "in_channels": 1,
+            "out_channels": 1,
+            "kernel_sizes": [5, 3],
+            "channels": 32,
+            "max_downsample_channels": 512,
+            "downsample_scales": [2, 2, 2],
+            "use_weight_norm": true
+        }
+    },
+    "training":{
+        "accum_steps": 20,
+        "lambdas": {
+          "lambda_disc": 1.0,
+          "lambda_feat_match_loss": 1.0,
+          "lambda_mel_loss": 15.0,
+          "lambda_adv": 1.0,
+          "lambda_stft_loss": 1.0,
+          "lambda_semantic_loss": 5,
+          "lambda_perceptual_loss": 0
+        },
+        "use_mel_loss": true,
+        "use_feat_match_loss": true,
+        "use_stft_loss": false,
+        "stft_loss_params": {
+          "fft_sizes": [512, 2048],
+          "hop_sizes": [128, 512],
+          "win_lengths": [512, 2048],
+          "window": "hann_window"
+        },
+        "gen_optim_params": {
+          "lr": 1.0,
+          "betas": [0.8, 0.9]
+        },
+        "disc_optim_params": {
+          "lr": 1.0,
+          "betas": [0.8, 0.9]
+        },
+        "gen_grad_clip": 1.0,
+        "disc_grad_clip": 1.0,
+        "gen_schedule_params": {
+          "warmup_step": 3000,
+          "down_step": 400000,
+          "min_lr": 2.0e-5,
+          "max_lr": 1.0e-4
+        },
+        "disc_schedule_params": {
+          "warmup_step": 3000,
+          "down_step": 400000,
+          "min_lr": 2.0e-5,
+          "max_lr": 1.0e-4
+        },
+        "demo_every":5000
+      }
+    
+}
