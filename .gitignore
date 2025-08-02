@@ -35,3 +35,5 @@ exp_infer/
 .vscode/
 
 test_audio/宝宝巴士 - 我会自己上厕所.mp3
+
+.DS_Store
